@@ -1,0 +1,6 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/iscan/source/repos/GameBattle/GameBattle/Content/2.png","C:/Users/iscan/source/repos/GameBattle/GameBattle/Content/bin/2.xnb","TextureProcessor","Texture2DContent",401176,5072953,0,2674237
+"C:/Users/iscan/source/repos/GameBattle/GameBattle/Content/3.png","C:/Users/iscan/source/repos/GameBattle/GameBattle/Content/bin/3.xnb","TextureProcessor","Texture2DContent",432034,5109813,0,1977378
+"C:/Users/iscan/source/repos/GameBattle/GameBattle/Content/4.png","C:/Users/iscan/source/repos/GameBattle/GameBattle/Content/bin/4.xnb","TextureProcessor","Texture2DContent",332354,5111653,0,2061902
+"C:/Users/iscan/source/repos/GameBattle/GameBattle/Content/5.png","C:/Users/iscan/source/repos/GameBattle/GameBattle/Content/bin/5.xnb","TextureProcessor","Texture2DContent",532284,5102429,0,1272943
+"C:/Users/iscan/source/repos/GameBattle/GameBattle/Content/bg2.jpg","C:/Users/iscan/source/repos/GameBattle/GameBattle/Content/bin/bg2.xnb","TextureProcessor","Texture2DContent",240758,3145813,0,0939118

@@ -1,0 +1,26 @@
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.mdb
+
+Content/obj/
+.mgcb/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.sln.docstates
+*.cache
+*.userprefs
+
+Debug/
+Release/
+x64/
+x86/
+
+Thumbs.db
+*.tmp
+~$*
