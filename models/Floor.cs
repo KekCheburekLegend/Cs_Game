@@ -20,7 +20,5 @@ namespace GameBattle.models
         {
             return rectangle.Intersects(new Rectangle((int)player.X, (int)(player.Y + player.Height)-15, player.Width, 20));
         }
-
-        
     }
 }

@@ -115,10 +115,8 @@ namespace GameBattle
                 }
             }
 
-            // Если игрок не на платформе и не в прыжке - включаем падение
             if (!onPlatform1 && !_player._isJumping)
             {
-                // Небольшое принуждение к падению
                 _player._isJumping = true;
                 _player._velosity = 0;
             }
