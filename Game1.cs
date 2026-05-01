@@ -6,7 +6,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
 
@@ -23,6 +25,7 @@ namespace GameBattle
         private Controller2 _controller2;
         private Player _player;
         private Player _player2;
+        private List<Floor> floors = new List<Floor>();
         
         // для отладки хитбокса
         private Hitbox_view _hitbox;
@@ -49,6 +52,9 @@ namespace GameBattle
 
             // для отладки хитбокса
             _hitbox = new Hitbox_view();
+            floors.Add(new Floor(200, 280, 400, 10));
+            floors.Add(new Floor(0, 450, 1200, 40));
+
 
             base.Initialize();
         }
@@ -97,6 +103,26 @@ namespace GameBattle
                 Debug.WriteLine(_player.health);
             }
 
+            bool onPlatform1 = false;
+            foreach (var floor in floors)
+            {
+                if (floor.isFloor(_player))
+                {
+                    _player.Y = floor.rectangle.Y - _player.Height;
+                    _player.ResetJump();
+                    onPlatform1 = true;
+                    break;
+                }
+            }
+
+            // Если игрок не на платформе и не в прыжке - включаем падение
+            if (!onPlatform1 && !_player._isJumping)
+            {
+                // Небольшое принуждение к падению
+                _player._isJumping = true;
+                _player._velosity = 0;
+            }
+
             _player.UpdateAnimation(dt);
             _player2.UpdateAnimation(dt);
 
@@ -139,6 +165,11 @@ namespace GameBattle
             _hitbox.DrawHitbox(_player2.GetAttackHitbox(), Color.Blue, _spriteBatch);
             _hitbox.DrawHitbox(new Rectangle((int)_player.X, (int)_player.Y, _player.Width, _player.Height), Color.Green, _spriteBatch);
             _hitbox.DrawHitbox(new Rectangle((int)_player2.X, (int)_player2.Y, _player2.Width, _player2.Height), Color.Yellow, _spriteBatch);
+            foreach (var floor in floors)
+            {
+                _hitbox.DrawHitbox(floor.rectangle, Color.Gray, _spriteBatch);
+            }
+            _hitbox.DrawHitbox(new Rectangle((int)_player.X, (int)(_player.Y + _player.Height)-15, _player.Width, 5), Color.Blue, _spriteBatch);
 
             _spriteBatch.End();
 
