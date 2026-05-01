@@ -11,6 +11,8 @@ namespace GameBattle.controllers
         public Keys LeftKey { get; private set; } = Keys.Left;
         public Keys RightKey { get;private set; } = Keys.Right;
         public Keys Up { get; private set; } = Keys.Up;
+        public Keys Attack { get; private set; } = Keys.NumPad1;
+
         public Controller2(Player player)
         {
             _player = player;
@@ -39,6 +41,11 @@ namespace GameBattle.controllers
             if (keyboard.IsKeyDown(Up))
             {
                 _player.Jump();
+            }
+
+            if (keyboard.IsKeyDown(Attack))
+            {
+                _player.Attack();
             }
 
             if (_player.X < 0) _player.X = 0;

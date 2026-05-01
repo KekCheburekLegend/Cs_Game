@@ -11,6 +11,9 @@ namespace GameBattle.controllers
         public Keys Left { get;private set; } = Keys.A;
         public Keys Right { get; private set; } = Keys.D;
         public Keys Up { get; private set; } = Keys.W;
+        public Keys Attack { get; private set; } = Keys.E;
+
+        private KeyboardState _previousKeyboard;
 
         public Controller(Player player)
         {
@@ -40,6 +43,13 @@ namespace GameBattle.controllers
             {
                 _player.Jump();
             }
+
+            if (keyboard.IsKeyDown(Attack)) 
+            {
+                _player.Attack();
+            }
+
+
             if (_player.X < 0) _player.X = 0;
             if (_player.X > window.ClientBounds.Width - _player.Width)
                 _player.X = window.ClientBounds.Width - _player.Width;
