@@ -5,9 +5,9 @@ namespace GameBattle.models
     public class Player
     {
         public float X { get; set; } = 190;
-        public float Y { get; set; } = 280;
+        public float Y { get; set; } = 290;
         public int Width { get; private set; } = 95;
-        public int Height { get; private set; } = 175;
+        public int Height { get; private set; } = 170;
         public float Speed { get; set; } = 300f;
         public bool Direction { get; set; } = true;
 
@@ -27,9 +27,9 @@ namespace GameBattle.models
         public float FrameInterval { get; set; } = 0.15f;
         public bool IsMoving { get; set; } = false;
 
-        private float _Force = -600f;
+        private float _Force = -650f;
         private float _gravity = 1200f;
-        private float _velosity = 0f;
+        public float _velosity = 0f;
         public bool _isJumping = false;
         private int _floor = 290;
 
@@ -55,6 +55,12 @@ namespace GameBattle.models
                 _isJumping = false;
                 _velosity = 0f;
             }
+        }
+
+        public void ResetJump()
+        {
+            _isJumping = false;
+            _velosity = 0;
         }
 
         public void Attack()
