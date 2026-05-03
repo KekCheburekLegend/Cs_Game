@@ -60,7 +60,7 @@ namespace GameBattle
             // для отладки хитбокса
             _hitbox = new Hitbox_view();
 
-            //добавление половов + плотформ без текстур
+            //добавление пола + плотформ без текстур
             floors.Add(new Floor(400, 280, 400, 10));
             floors.Add(new Floor(0, 450, 1200, 40));
 
@@ -98,7 +98,17 @@ namespace GameBattle
                 Exit();
 
             if (Keyboard.GetState().IsKeyDown(Keys.Home))
+            {
                 _bgtexture = Content.Load<Texture2D>("bg2");
+                floors.Clear();
+                floors.Add(new Floor(400, 280, 400, 10));
+                floors.Add(new Floor(0, 450, 1200, 40));
+                foreach (var floor in floors)
+                {
+                    floor.LoadFloor(GraphicsDevice);
+                }
+            }
+
             else if (Keyboard.GetState().IsKeyDown(Keys.End))
             {
                 _bgtexture = Content.Load<Texture2D>("bkg");
