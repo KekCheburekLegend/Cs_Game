@@ -25,8 +25,15 @@ namespace GameBattle
         private Controller2 _controller2;
         private Player _player;
         private Player _player2;
+        private healthbar healthbar;
+        private healthbar healthbar2;
+
+
+
         private List<Floor> floors = new List<Floor>();
-        
+
+
+
         // для отладки хитбокса
         private Hitbox_view _hitbox;
 
@@ -44,7 +51,7 @@ namespace GameBattle
             _graphics.ApplyChanges();
 
             _player = new Player();
-            _player2 = new Player { X = 800, Y = 290 };
+            _player2 = new Player { X = 1000, Y = 290 };
             _player2.Direction = false;
 
             _controller = new Controller(_player);
@@ -52,8 +59,14 @@ namespace GameBattle
 
             // для отладки хитбокса
             _hitbox = new Hitbox_view();
-            floors.Add(new Floor(200, 280, 400, 10));
+
+            //добавление пола + плотформ без текстур
+            floors.Add(new Floor(400, 280, 400, 10));
             floors.Add(new Floor(0, 450, 1200, 40));
+
+            //healthbar
+            healthbar = new healthbar();
+            healthbar2 = new healthbar { X = 900 };
 
 
             base.Initialize();
@@ -68,7 +81,15 @@ namespace GameBattle
 
             // для отладки хитбокса
             _hitbox.LoadHitbox(GraphicsDevice, Color.White);
+            // загрузка цвета здоровья
+            healthbar.LoadHealthBar(GraphicsDevice);
+            healthbar2.LoadHealthBar(GraphicsDevice);
 
+            // загрузка цвета платформы
+            foreach (var floor in floors)
+            {
+                floor.LoadFloor(GraphicsDevice);
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -77,9 +98,29 @@ namespace GameBattle
                 Exit();
 
             if (Keyboard.GetState().IsKeyDown(Keys.Home))
-                _bgtexture = Content.Load<Texture2D>("bkg");
-            else if (Keyboard.GetState().IsKeyDown(Keys.End))
+            {
                 _bgtexture = Content.Load<Texture2D>("bg2");
+                floors.Clear();
+                floors.Add(new Floor(400, 280, 400, 10));
+                floors.Add(new Floor(0, 450, 1200, 40));
+                foreach (var floor in floors)
+                {
+                    floor.LoadFloor(GraphicsDevice);
+                }
+            }
+
+            else if (Keyboard.GetState().IsKeyDown(Keys.End))
+            {
+                _bgtexture = Content.Load<Texture2D>("bkg");
+                floors.Clear();
+                floors.Add(new Floor(0, 450, 1200, 40));
+                floors.Add(new Floor(0, 280, 400, 10));
+                floors.Add(new Floor(800, 280, 400, 10));
+                foreach (var floor in floors)
+                {
+                    floor.LoadFloor(GraphicsDevice);
+                }
+            }
 
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -95,12 +136,12 @@ namespace GameBattle
             if (_player.CheckHit(_player2))
             {
                 _player2.health -= 0.3f;
-                Debug.WriteLine(_player2.health);
+                //Debug.WriteLine(_player2.health);
             }
             if (_player2.CheckHit(_player))
             {
                 _player.health -= 0.3f;
-                Debug.WriteLine(_player.health);
+                //Debug.WriteLine(_player.health);
             }
 
             bool onPlatform1 = false;
@@ -119,6 +160,24 @@ namespace GameBattle
             {
                 _player._isJumping = true;
                 _player._velosity = 0;
+            }
+
+            bool onPlatform2 = false;
+            foreach (var floor in floors)
+            {
+                if (floor.isFloor(_player2))
+                {
+                    _player2.Y = floor.rectangle.Y - _player2.Height;
+                    _player2.ResetJump();
+                    onPlatform2 = true;
+                    break;
+                }
+            }
+
+            if (!onPlatform2 && !_player2._isJumping)
+            {
+                _player2._isJumping = true;
+                _player2._velosity = 0;
             }
 
             _player.UpdateAnimation(dt);
@@ -158,16 +217,24 @@ namespace GameBattle
                 Color.White, 0f, Vector2.Zero, 1f, flip2, 0f
             );
 
-            // для отладки хитбоксы
-            _hitbox.DrawHitbox(_player.GetAttackHitbox(), Color.Red, _spriteBatch);
-            _hitbox.DrawHitbox(_player2.GetAttackHitbox(), Color.Blue, _spriteBatch);
-            _hitbox.DrawHitbox(new Rectangle((int)_player.X, (int)_player.Y, _player.Width, _player.Height), Color.Green, _spriteBatch);
-            _hitbox.DrawHitbox(new Rectangle((int)_player2.X, (int)_player2.Y, _player2.Width, _player2.Height), Color.Yellow, _spriteBatch);
+            healthbar.Draw(_spriteBatch, _player);
+            healthbar2.Draw(_spriteBatch, _player2);
             foreach (var floor in floors)
             {
-                _hitbox.DrawHitbox(floor.rectangle, Color.Gray, _spriteBatch);
+                floor.Draw(_spriteBatch);
             }
-            _hitbox.DrawHitbox(new Rectangle((int)_player.X, (int)(_player.Y + _player.Height)-15, _player.Width, 5), Color.Blue, _spriteBatch);
+
+            //// для отладки хитбоксы
+            //_hitbox.DrawHitbox(_player.GetAttackHitbox(), Color.Red, _spriteBatch);
+            //_hitbox.DrawHitbox(_player2.GetAttackHitbox(), Color.Blue, _spriteBatch);
+            //_hitbox.DrawHitbox(new Rectangle((int)_player.X, (int)_player.Y, _player.Width, _player.Height), Color.Green, _spriteBatch);
+            //_hitbox.DrawHitbox(new Rectangle((int)_player2.X, (int)_player2.Y, _player2.Width, _player2.Height), Color.Yellow, _spriteBatch);
+            //foreach (var floor in floors)
+            //{
+            //    _hitbox.DrawHitbox(floor.rectangle, Color.Gray, _spriteBatch);
+            //}
+            //_hitbox.DrawHitbox(new Rectangle((int)_player.X, (int)(_player.Y + _player.Height) - 15, _player.Width, 5), Color.Blue, _spriteBatch);
+
 
             _spriteBatch.End();
 
