@@ -6,10 +6,19 @@ namespace GameBattle.models
     {
         public float X { get; set; } = 190;
         public float Y { get; set; } = 280;
-        public int Width { get; private set; } = 190;
+        public int Width { get; private set; } = 95;
         public int Height { get; private set; } = 175;
         public float Speed { get; set; } = 300f;
         public bool Direction { get; set; } = true;
+
+        public float health = 100;
+
+        public bool IsAttacking { get; private set; } = false;
+        private float _attackTimer = 0f;
+        private float _attackDuration = 0.2f;
+        private float _attackCooldown = 0.5f;
+        private float _cooldownTimer = 0f;
+
 
         public int CurrentFrameX { get; set; } = 1;
         public int CurrentFrameY { get; set; } = 2;
@@ -21,7 +30,7 @@ namespace GameBattle.models
         private float _Force = -600f;
         private float _gravity = 1200f;
         private float _velosity = 0f;
-        private bool _isJumping = false;
+        public bool _isJumping = false;
         private int _floor = 290;
 
         public void Jump()
@@ -46,41 +55,54 @@ namespace GameBattle.models
                 _isJumping = false;
                 _velosity = 0f;
             }
-
-
-        }
-        public Rectangle GetSourceRectangle()
-        {
-            return new Rectangle(
-                CurrentFrameX * Width,
-                CurrentFrameY * Height,
-                Width,
-                Height
-            );
         }
 
-
-
-        public void UpdateAnimation(float deltaTime)
+        public void Attack()
         {
-            if (IsMoving)
+            if (!IsAttacking && _cooldownTimer <= 0f)
             {
-                FrameTimer += deltaTime;
-                if (FrameTimer >= FrameInterval)
+                IsAttacking = true;
+                _attackTimer = _attackDuration;
+                _cooldownTimer = _attackCooldown;
+                CurrentFrameX = 1;
+                CurrentFrameY = 4;
+            }
+        }
+
+        public Rectangle GetAttackHitbox()
+        {
+            if (!IsAttacking) return Rectangle.Empty;
+            int aX = 40;
+            int aY = 20;
+            int attackX = Direction ? (int)X + (Width-30) : (int)X+30 - aX;
+            int attackY = (int)Y + Height / 2 - aY / 2;
+
+            return new Rectangle(attackX, attackY, aX, aY);
+        }
+
+        public bool CheckHit(Player other)
+        {
+            if (!IsAttacking) return false;
+            return GetAttackHitbox().Intersects(
+                new Rectangle((int)other.X, (int)other.Y, other.Width, other.Height));
+        }
+
+        public void UpdateAttack(float dt)
+        {
+            if (IsAttacking)
+            {
+                _attackTimer -= dt;
+                if (_attackTimer <= 0f)
                 {
-                    FrameTimer = 0f;
-                    CurrentFrameX++;
-                    CurrentFrameY = 2;
-                    if (CurrentFrameX >= TotalFramesX)
-                        CurrentFrameX = 1;
+                    IsAttacking = false;
+                    CurrentFrameX = 1;
+                    CurrentFrameY = 0;
                 }
             }
-            else
-            {
-                CurrentFrameX = 1;
-                CurrentFrameY = 0;
-                FrameTimer = 0f;
-            }
+
+            if (_cooldownTimer > 0f)
+                _cooldownTimer -= dt;
         }
+
     }
 }

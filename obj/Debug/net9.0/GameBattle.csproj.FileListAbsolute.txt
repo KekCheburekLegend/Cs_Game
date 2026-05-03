@@ -1,6 +1,3 @@
-C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\Content\2.xnb
-C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\Content\3.xnb
-C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\Content\4.xnb
 C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\GameBattle.exe
 C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\GameBattle.deps.json
 C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\GameBattle.runtimeconfig.json
@@ -34,5 +31,11 @@ C:\Users\iscan\source\repos\GameBattle\GameBattle\obj\Debug\net9.0\refint\GameBa
 C:\Users\iscan\source\repos\GameBattle\GameBattle\obj\Debug\net9.0\GameBattle.pdb
 C:\Users\iscan\source\repos\GameBattle\GameBattle\obj\Debug\net9.0\GameBattle.genruntimeconfig.cache
 C:\Users\iscan\source\repos\GameBattle\GameBattle\obj\Debug\net9.0\ref\GameBattle.dll
+c:\Users\iscan\source\repos\GameBattle\GameBattle\obj\Debug\net9.0\GameBattle.sourcelink.json
+C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\Content\2.xnb
+C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\Content\3.xnb
+C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\Content\4.xnb
 C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\Content\5.xnb
 C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\Content\bg2.xnb
+C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\Content\bk1.xnb
+C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\Content\bkg.xnb
