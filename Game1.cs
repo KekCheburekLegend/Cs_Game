@@ -51,7 +51,7 @@ namespace GameBattle
             _graphics.ApplyChanges();
 
             _player = new Player();
-            _player2 = new Player { X = 800, Y = 290 };
+            _player2 = new Player { X = 1000, Y = 290 };
             _player2.Direction = false;
 
             _controller = new Controller(_player);
@@ -61,7 +61,7 @@ namespace GameBattle
             _hitbox = new Hitbox_view();
 
             //добавление половов + плотформ без текстур
-            floors.Add(new Floor(200, 280, 400, 10));
+            floors.Add(new Floor(400, 280, 400, 10));
             floors.Add(new Floor(0, 450, 1200, 40));
 
             //healthbar
@@ -126,12 +126,12 @@ namespace GameBattle
             if (_player.CheckHit(_player2))
             {
                 _player2.health -= 0.3f;
-                Debug.WriteLine(_player2.health);
+                //Debug.WriteLine(_player2.health);
             }
             if (_player2.CheckHit(_player))
             {
                 _player.health -= 0.3f;
-                Debug.WriteLine(_player.health);
+                //Debug.WriteLine(_player.health);
             }
 
             bool onPlatform1 = false;

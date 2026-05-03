@@ -4,7 +4,7 @@ namespace GameBattle.models
 {
     public class Player
     {
-        public float X { get; set; } = 190;
+        public float X { get; set; } = 100;
         public float Y { get; set; } = 290;
         public int Width { get; private set; } = 95;
         public int Height { get; private set; } = 170;
