@@ -27,6 +27,7 @@ namespace GameBattle
         private Player _player2;
         private healthbar healthbar;
         private healthbar healthbar2;
+        
 
 
 
@@ -35,7 +36,7 @@ namespace GameBattle
 
 
         // для отладки хитбокса
-        private Hitbox_view _hitbox;
+        //private Hitbox_view _hitbox;
 
         public Game1()
         {
@@ -58,7 +59,7 @@ namespace GameBattle
             _controller2 = new Controller2(_player2);
 
             // для отладки хитбокса
-            _hitbox = new Hitbox_view();
+            //_hitbox = new Hitbox_view();
 
             //добавление пола + плотформ без текстур
             floors.Add(new Floor(400, 280, 400, 10));
@@ -79,8 +80,10 @@ namespace GameBattle
             _texture2 = Content.Load<Texture2D>("3");
             _bgtexture = Content.Load<Texture2D>("bg2");
 
+            _controller.InitializeKnife(GraphicsDevice);
+            _controller2.InitializeKnife(GraphicsDevice);
             // для отладки хитбокса
-            _hitbox.LoadHitbox(GraphicsDevice, Color.White);
+            //_hitbox.LoadHitbox(GraphicsDevice, Color.White);
             // загрузка цвета здоровья
             healthbar.LoadHealthBar(GraphicsDevice);
             healthbar2.LoadHealthBar(GraphicsDevice);
@@ -142,6 +145,16 @@ namespace GameBattle
             {
                 _player.health -= 0.3f;
                 //Debug.WriteLine(_player.health);
+            }
+
+            if (_controller.GetKnife().CheckHit(_player2))
+            {
+                _player2.health -= 0.2f;
+            }
+
+            if (_controller2.GetKnife().CheckHit(_player))
+            {
+                _player.health -= 0.2f;
             }
 
             bool onPlatform1 = false;
@@ -224,7 +237,10 @@ namespace GameBattle
                 floor.Draw(_spriteBatch);
             }
 
-            //// для отладки хитбоксы
+            _controller.GetKnife().Draw(_spriteBatch);
+            _controller2.GetKnife().Draw(_spriteBatch);
+
+            // для отладки хитбоксы
             //_hitbox.DrawHitbox(_player.GetAttackHitbox(), Color.Red, _spriteBatch);
             //_hitbox.DrawHitbox(_player2.GetAttackHitbox(), Color.Blue, _spriteBatch);
             //_hitbox.DrawHitbox(new Rectangle((int)_player.X, (int)_player.Y, _player.Width, _player.Height), Color.Green, _spriteBatch);

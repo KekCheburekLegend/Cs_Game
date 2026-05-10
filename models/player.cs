@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace GameBattle.models
 {
@@ -26,6 +27,7 @@ namespace GameBattle.models
         public float FrameTimer { get; set; } = 0f;
         public float FrameInterval { get; set; } = 0.15f;
         public bool IsMoving { get; set; } = false;
+
 
         private float _Force = -650f;
         private float _gravity = 1200f;
@@ -80,7 +82,7 @@ namespace GameBattle.models
             if (!IsAttacking) return Rectangle.Empty;
             int aX = 40;
             int aY = 20;
-            int attackX = Direction ? (int)X + (Width-30) : (int)X+30 - aX;
+            int attackX = Direction ? (int)X + (Width - 30) : (int)X + 30 - aX;
             int attackY = (int)Y + Height / 2 - aY / 2;
 
             return new Rectangle(attackX, attackY, aX, aY);
