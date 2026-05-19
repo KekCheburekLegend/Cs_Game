@@ -32,6 +32,9 @@ namespace GameBattle
         private healthbar healthbar2;
 
 
+        private List<healthpack> healthpacks = new List<healthpack>();
+
+
         private List<Floor> floors = new List<Floor>();
 
         private bool GameStart = false;
@@ -82,8 +85,17 @@ namespace GameBattle
                 {
                     floor.LoadFloor(GraphicsDevice);
                 }
+
+                healthpacks.Clear();
+                healthpacks.Add(new healthpack(new Vector2(500, 240)));
+                healthpacks.Add(new healthpack(new Vector2(700, 240)));
+
+                foreach (var pack in healthpacks)
+                {
+                    pack.loadContent(GraphicsDevice);
+                }
             };
-            
+
             back2.X = 650;
             back2.Y = 300;
             back2.Text = "ruins";
@@ -97,6 +109,15 @@ namespace GameBattle
                 foreach (var floor in floors)
                 {
                     floor.LoadFloor(GraphicsDevice);
+                }
+
+                healthpacks.Clear();
+                healthpacks.Add(new healthpack(new Vector2(200, 240)));
+                healthpacks.Add(new healthpack(new Vector2(900, 240)));
+
+                foreach (var pack in healthpacks)
+                {
+                    pack.loadContent(GraphicsDevice);
                 }
             };
 
@@ -119,6 +140,9 @@ namespace GameBattle
             //добавление пола + плотформ без текстур
             floors.Add(new Floor(400, 280, 400, 10));
             floors.Add(new Floor(0, 450, 1200, 40));
+
+            healthpacks.Add(new healthpack(new Vector2(500, 240)));
+            healthpacks.Add(new healthpack(new Vector2(700, 240)));
 
             //healthbar
             healthbar = new healthbar();
@@ -148,6 +172,11 @@ namespace GameBattle
             {
                 floor.LoadFloor(GraphicsDevice);
             }
+
+            foreach (var pack in healthpacks)
+            {
+                pack.loadContent(GraphicsDevice);
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -172,23 +201,23 @@ namespace GameBattle
 
                 if (_player.CheckHit(_player2))
                 {
-                    _player2.health -= 0.3f;
+                    _player2.health -= 0.4f;
                     //Debug.WriteLine(_player2.health);
                 }
                 if (_player2.CheckHit(_player))
                 {
-                    _player.health -= 0.3f;
+                    _player.health -= 0.4f;
                     //Debug.WriteLine(_player.health);
                 }
 
                 if (_controller.GetKnife().CheckHit(_player2))
                 {
-                    _player2.health -= 0.3f;
+                    _player2.health -= 0.4f;
                 }
 
                 if (_controller2.GetKnife().CheckHit(_player))
                 {
-                    _player.health -= 0.3f;
+                    _player.health -= 0.4f;
                 }
 
                 bool onPlatform1 = false;
@@ -227,11 +256,25 @@ namespace GameBattle
                     _player2._velosity = 0;
                 }
 
+                for (int i = 0; i < healthpacks.Count; i++)
+                {
+                    var temp = healthpacks[i];
+                    temp.Update(dt);
+
+                    if (temp.Active)
+                    {
+                        if (temp.takepack(_player)) temp.collect(_player);
+                        if (temp.takepack(_player2)) temp.collect(_player2);
+                    }
+                }
+
+                healthpacks.RemoveAll(p => !p.Active && p != null && healthpacks.Count > 7);
+
                 _player.UpdateAnimation(dt);
-                _player2.UpdateAnimation(dt);
+                    _player2.UpdateAnimation(dt);
+                }
+                base.Update(gameTime);
             }
-            base.Update(gameTime);
-        }
 
         protected override void Draw(GameTime gameTime)
         {
@@ -275,6 +318,11 @@ namespace GameBattle
 
                 _controller.GetKnife().Draw(_spriteBatch);
                 _controller2.GetKnife().Draw(_spriteBatch);
+
+                foreach (var pack in healthpacks)
+                {
+                    pack.Draw(_spriteBatch);
+                }
 
                 // для отладки хитбоксы
                 //_hitbox.DrawHitbox(_player.GetAttackHitbox(), Color.Red, _spriteBatch);
