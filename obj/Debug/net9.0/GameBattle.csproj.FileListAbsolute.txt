@@ -39,3 +39,9 @@ C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\Content\5.xnb
 C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\Content\bg2.xnb
 C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\Content\bk1.xnb
 C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\Content\bkg.xnb
+C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\CsvHelper.dll
+C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\GumCommon.dll
+C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\FlatRedBall.InterpolationCore.dll
+C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\MonoGameGum.dll
+C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\iscan\source\repos\GameBattle\GameBattle\bin\Debug\net9.0\TextCopy.dll

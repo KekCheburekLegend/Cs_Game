@@ -13,7 +13,7 @@ namespace GameBattle.controllers
         public Keys LeftKey { get; private set; } = Keys.Left;
         public Keys RightKey { get;private set; } = Keys.Right;
         public Keys Up { get; private set; } = Keys.Up;
-        public Keys Attack { get; private set; } = Keys.NumPad0;
+        public Keys Attack { get; private set; } = Keys.NumPad1;
         
         public Keys KnifeKey { get; private set; } = Keys.RightControl;
 
