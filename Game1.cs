@@ -8,10 +8,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameGum;
+using MonoGameGum.GueDeriving;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
 
@@ -32,12 +34,20 @@ namespace GameBattle
         private healthbar healthbar2;
 
 
+        private Button button = new Button();
+        private Button back1;
+        private Button back2;
+        private Button reset;
+        private TextRuntime winText;
+
+
         private List<healthpack> healthpacks = new List<healthpack>();
 
 
         private List<Floor> floors = new List<Floor>();
 
         private bool GameStart = false;
+        private bool gameOver = false;
         GumService GumUI => GumService.Default;
 
         // для отладки хитбокса
@@ -53,10 +63,13 @@ namespace GameBattle
         protected override void Initialize()
         {
             GumService.Default.Initialize(this, DefaultVisualsVersion.V3);
-            Button button = new Button();
-            Button back1 = new Button();
-            Button back2 = new Button();
-            //Button reset = new Button();
+            button = new Button();
+            back1 = new Button();
+            back2 = new Button();
+            reset = new Button();
+            winText = new TextRuntime();
+            winText.AddToRoot();
+            reset.AddToRoot();
             button.AddToRoot();
             back1.AddToRoot();
             back2.AddToRoot();
@@ -67,10 +80,17 @@ namespace GameBattle
             button.Text = "START GAME";
             button.Click += (_, _) =>
             {
+                ResetGameToStart();
+
                 GameStart = true;
+                gameOver = false;
+
                 button.Visual.Visible = false;
                 back1.Visual.Visible = false;
                 back2.Visual.Visible = false;
+                reset.Visual.Visible = false;
+                winText.Visible = false;
+
             };
             back1.X = 500;
             back1.Y = 300;
@@ -121,7 +141,34 @@ namespace GameBattle
                 }
             };
 
+            reset.X = 500;
+            reset.Y = 225;
+            reset.Width = 275;
+            reset.Height = 10;
 
+            reset.Click += (_, _) =>
+            {
+                ResetGameToStart();
+
+                GameStart = false;
+                gameOver = false;
+
+                button.Visual.Visible = true;
+                back1.Visual.Visible = true;
+                back2.Visual.Visible = true;
+                reset.Visual.Visible = false;
+                winText.Visible = false;
+            };
+
+            winText.X = 550;
+            winText.Y = 150;
+            winText.Width = 400;
+            winText.Height = 300;
+            winText.FontSize = 50;
+            winText.Color = Color.Black;
+            reset.Text = "RESET GAME";
+            reset.Visual.Visible = false;
+            winText.Visible = false;
 
             _graphics.PreferredBackBufferWidth = 1200;
             _graphics.PreferredBackBufferHeight = 450;
@@ -186,7 +233,7 @@ namespace GameBattle
 
             GumUI.Update(gameTime);
 
-            if (GameStart)
+            if (GameStart && !gameOver)
             {
                 float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -271,10 +318,29 @@ namespace GameBattle
                 healthpacks.RemoveAll(p => !p.Active && p != null && healthpacks.Count > 7);
 
                 _player.UpdateAnimation(dt);
-                    _player2.UpdateAnimation(dt);
+                _player2.UpdateAnimation(dt);
+
+
+                if (_player.health <= 0)
+                {
+                    gameOver = true;
+                    GameStart = false;
+                    winText.Text = "PLAYER 2 WINS!";
+                    winText.Visible = true;
+                    reset.Visual.Visible = true;
                 }
-                base.Update(gameTime);
+
+                else if (_player2.health <= 0)
+                {
+                    gameOver = true;
+                    GameStart = false;
+                    winText.Text = "PLAYER 1 WINS!";
+                    winText.Visible = true;
+                    reset.Visual.Visible = true;
+                }
             }
+            base.Update(gameTime);
+        }
 
         protected override void Draw(GameTime gameTime)
         {
@@ -341,6 +407,31 @@ namespace GameBattle
             GumUI.Draw();
 
             base.Draw(gameTime);
+        }
+
+        private void ResetGameToStart()
+        {
+            _player.health = 100f;
+            _player2.health = 100f;
+
+            _player.X = 100;
+            _player.Y = 290;
+            _player2.X = 1000;
+            _player2.Y = 290;
+
+            _player.Direction = true;
+            _player2.Direction = false;
+
+            _player._isJumping = false;
+            _player2._isJumping = false;
+            _player._velosity = 0;
+            _player2._velosity = 0;
+
+            _controller = new Controller(_player);
+            _controller2 = new Controller2(_player2);
+
+            _controller.InitializeKnife(GraphicsDevice);
+            _controller2.InitializeKnife(GraphicsDevice);
         }
     }
 }

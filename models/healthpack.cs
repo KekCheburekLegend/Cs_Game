@@ -17,7 +17,7 @@ namespace GameBattle.models
 
         private Texture2D _texture;
         private float _respawnTimer = 0f;
-        private const float RESPAWN_TIME = 8f;
+        private const float RESPAWN_TIME = 15f;
 
         public healthpack(Vector2 vector)
         {
