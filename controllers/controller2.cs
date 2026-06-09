@@ -28,6 +28,11 @@ namespace GameBattle.controllers
             _knife.loadknife(graphicsDevice);
         }
 
+        public void Reset()
+        {
+            _knife.Reset();
+        }
+
         public void Update(GameTime gameTime, GameWindow window)
         {
             var keyboard = Keyboard.GetState();

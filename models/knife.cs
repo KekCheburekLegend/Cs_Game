@@ -92,6 +92,15 @@ namespace GameBattle.models
             Texture.SetData(new[] { Color.Gray });
         }
 
+        public void Reset()
+        {
+            isKnife = false;
+            _knifeTimer = 0f;
+            _kcooldownTimer = 0f;
+            lifedt = 0f;
+            _knifeCount = 5;
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             if (isKnife)

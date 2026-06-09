@@ -427,11 +427,9 @@ namespace GameBattle
             _player._velosity = 0;
             _player2._velosity = 0;
 
-            _controller = new Controller(_player);
-            _controller2 = new Controller2(_player2);
+            _controller.Reset();
+            _controller2.Reset();
 
-            _controller.InitializeKnife(GraphicsDevice);
-            _controller2.InitializeKnife(GraphicsDevice);
         }
     }
 }
