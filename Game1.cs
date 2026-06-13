@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameGum;
 using MonoGameGum.GueDeriving;
+using QuakeConsole;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -39,7 +40,7 @@ namespace GameBattle
         private Button back2;
         private Button reset;
         private TextRuntime winText;
-
+        private ConsoleComponent console;
 
         private List<healthpack> healthpacks = new List<healthpack>();
 
@@ -58,10 +59,15 @@ namespace GameBattle
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            console = new ConsoleComponent(this);
+            Components.Add(console);
         }
 
         protected override void Initialize()
         {
+            var interpreter = new PythonInterpreter();
+            console.Interpreter = interpreter;
+            
             GumService.Default.Initialize(this, DefaultVisualsVersion.V3);
             button = new Button();
             back1 = new Button();
@@ -195,7 +201,7 @@ namespace GameBattle
             healthbar = new healthbar();
             healthbar2 = new healthbar { X = 900 };
 
-
+            GetVar.AddMyVarGame(interpreter, _player, _player2);
             base.Initialize();
         }
 
@@ -230,6 +236,8 @@ namespace GameBattle
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            if (Keyboard.GetState().IsKeyDown(Keys.OemTilde))
+                console.ToggleOpenClose();
 
             GumUI.Update(gameTime);
 
@@ -248,12 +256,12 @@ namespace GameBattle
 
                 if (_player.CheckHit(_player2))
                 {
-                    _player2.health -= 0.4f;
+                    _player2.health -= _player.damage;
                     //Debug.WriteLine(_player2.health);
                 }
                 if (_player2.CheckHit(_player))
                 {
-                    _player.health -= 0.4f;
+                    _player.health -= _player2.damage;
                     //Debug.WriteLine(_player.health);
                 }
 
@@ -414,6 +422,9 @@ namespace GameBattle
             _player.health = 100f;
             _player2.health = 100f;
 
+            _player.damage = 0.4f;
+            _player2.damage = 0.4f;
+
             _player.X = 100;
             _player.Y = 290;
             _player2.X = 1000;
@@ -429,7 +440,6 @@ namespace GameBattle
 
             _controller.Reset();
             _controller2.Reset();
-
         }
     }
 }

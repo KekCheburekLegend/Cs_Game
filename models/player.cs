@@ -13,6 +13,8 @@ namespace GameBattle.models
         public bool Direction { get; set; } = true;
 
         public float health = 100;
+        public float damage = 0.4f;
+
 
         public bool IsAttacking { get; private set; } = false;
         private float _attackTimer = 0f;
