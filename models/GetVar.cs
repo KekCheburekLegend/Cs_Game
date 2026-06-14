@@ -10,7 +10,7 @@ namespace GameBattle.models
 {
     public static class GetVar
     {
-        public static void AddMyVarGame(PythonInterpreter interpreter, Player player1, Player player2)
+        public static void AddConsoleGame(PythonInterpreter interpreter, Player player1, Player player2)
         {
             if (interpreter == null) return;
 

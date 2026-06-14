@@ -201,7 +201,7 @@ namespace GameBattle
             healthbar = new healthbar();
             healthbar2 = new healthbar { X = 900 };
 
-            GetVar.AddMyVarGame(interpreter, _player, _player2);
+            GetVar.AddConsoleGame(interpreter, _player, _player2);
             base.Initialize();
         }
 
