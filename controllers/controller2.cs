@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using static Community.CsharpSqlite.Sqlite3;
 
 namespace GameBattle.controllers
 {
@@ -40,26 +41,30 @@ namespace GameBattle.controllers
 
             _player.IsMoving = false;
 
-            if (keyboard.IsKeyDown(LeftKey))
+            if (!_player.isStun)
             {
-                _player.X -= _player.Speed * dt;
-                _player.Direction = false;
-                _player.IsMoving = true;
-            }
-            if (keyboard.IsKeyDown(RightKey))
-            {
-                _player.X += _player.Speed * dt;
-                _player.Direction = true;
-                _player.IsMoving = true;
-            }
-            if (keyboard.IsKeyDown(Up))
-            {
-                _player.Jump();
-            }
 
-            if (keyboard.IsKeyDown(Attack))
-            {
-                _player.Attack();
+                if (keyboard.IsKeyDown(LeftKey))
+                {
+                    _player.X -= _player.Speed * dt;
+                    _player.Direction = false;
+                    _player.IsMoving = true;
+                }
+                if (keyboard.IsKeyDown(RightKey))
+                {
+                    _player.X += _player.Speed * dt;
+                    _player.Direction = true;
+                    _player.IsMoving = true;
+                }
+                if (keyboard.IsKeyDown(Up))
+                {
+                    _player.Jump();
+                }
+
+                if (keyboard.IsKeyDown(Attack))
+                {
+                    _player.Attack();
+                }
             }
 
             if (keyboard.IsKeyDown(KnifeKey) && _knife.CanAttack())

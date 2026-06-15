@@ -38,27 +38,31 @@ namespace GameBattle.controllers
 
             _player.IsMoving = false;
 
-            if (keyboard.IsKeyDown(LefKey))
+            if (!_player.isStun)
             {
-                _player.X -= _player.Speed * dt;
-                _player.Direction = false;
-                _player.IsMoving = true;
-            }
-            if (keyboard.IsKeyDown(RightKey))
-            {
-                _player.X += _player.Speed * dt;
-                _player.Direction = true;
-                _player.IsMoving = true;
-            }
-            if (keyboard.IsKeyDown(Up))
-            {
-                _player.Jump();
+                if (keyboard.IsKeyDown(LefKey))
+                {
+                    _player.X -= _player.Speed * dt;
+                    _player.Direction = false;
+                    _player.IsMoving = true;
+                }
+                if (keyboard.IsKeyDown(RightKey))
+                {
+                    _player.X += _player.Speed * dt;
+                    _player.Direction = true;
+                    _player.IsMoving = true;
+                }
+                if (keyboard.IsKeyDown(Up))
+                {
+                    _player.Jump();
+                }
+
+                if (keyboard.IsKeyDown(Attack))
+                {
+                    _player.Attack();
+                }
             }
 
-            if (keyboard.IsKeyDown(Attack))
-            {
-                _player.Attack();
-            }
 
             if (keyboard.IsKeyDown(KnifeKey) && _knife.CanAttack())
             {

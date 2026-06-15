@@ -12,8 +12,8 @@ namespace GameBattle.models
         public float Speed { get; set; } = 300f;
         public bool Direction { get; set; } = true;
 
-        public float health = 100;
-        public float damage = 0.4f;
+        public float health { get; set; } = 100;
+        public float damage { get; set; } = 0.4f;
 
 
         public bool IsAttacking { get; private set; } = false;
@@ -22,12 +22,19 @@ namespace GameBattle.models
         private float _attackCooldown = 0.5f;
         private float _cooldownTimer = 0f;
 
+        private int _ComboCount = 0;
+        private float _ComboTimer = 0f;
+        private float _ComboTimeMake = 0.8f;
+        public bool  isStun = false;
+        private float _stunTimer = 0f;
+        public float stunTime = 1.2f;
+
 
         public int CurrentFrameX { get; set; } = 1;
         public int CurrentFrameY { get; set; } = 2;
         public int TotalFramesX { get; set; } = 6;
         public float FrameTimer { get; set; } = 0f;
-        public float FrameInterval { get; set; } = 0.15f;
+        public float FrameInterval { get; set; } = 0.2f;
         public bool IsMoving { get; set; } = false;
 
 
@@ -69,20 +76,48 @@ namespace GameBattle.models
 
         public void Attack()
         {
+            if (isStun) return;
+
             if (!IsAttacking && _cooldownTimer <= 0f)
             {
                 IsAttacking = true;
+                if (_ComboCount > 0 && _ComboCount < 4) 
+                {
+                    _ComboCount++;
+                }
+                else
+                {
+                    _ComboCount = 1;
+                }
+
                 _attackTimer = _attackDuration;
                 _cooldownTimer = _attackCooldown;
+                _ComboTimer = _ComboTimeMake;
+
                 CurrentFrameX = 1;
-                CurrentFrameY = 4;
+                CurrentFrameY = 4 + (_ComboCount == 3 ? -1 : 0);
             }
+        }
+        public void ApplyStun(Player other)
+        {
+            if (_ComboCount == 3) 
+            {
+                other.ReceiveStun(stunTime);
+            }
+        }
+
+        public void ReceiveStun(float duration)
+        {
+            isStun = true;
+            _stunTimer = duration;
+            IsAttacking = false;
+            _ComboCount = 0;
         }
 
         public Rectangle GetAttackHitbox()
         {
             if (!IsAttacking) return Rectangle.Empty;
-            int aX = 40;
+            int aX = 40 + (_ComboCount * 10);
             int aY = 20;
             int attackX = Direction ? (int)X + (Width - 30) : (int)X + 30 - aX;
             int attackY = (int)Y + Height / 2 - aY / 2;
@@ -112,6 +147,20 @@ namespace GameBattle.models
 
             if (_cooldownTimer > 0f)
                 _cooldownTimer -= dt;
+
+            if (_ComboTimer > 0f)
+            {
+                _ComboTimer -= dt;
+                if (_ComboTimer <= 0f)
+                    _ComboCount = 0;
+            }
+
+            if (isStun)
+            {
+                _stunTimer -= dt;
+                if (_stunTimer <= 0f)
+                    isStun = false;
+            }
         }
 
     }

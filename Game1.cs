@@ -257,11 +257,13 @@ namespace GameBattle
                 if (_player.CheckHit(_player2))
                 {
                     _player2.health -= _player.damage;
+                    _player.ApplyStun(_player2);
                     //Debug.WriteLine(_player2.health);
                 }
                 if (_player2.CheckHit(_player))
                 {
                     _player.health -= _player2.damage;
+                    _player2.ApplyStun(_player);
                     //Debug.WriteLine(_player.health);
                 }
 
