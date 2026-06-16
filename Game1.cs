@@ -7,6 +7,7 @@ using Gum.Forms.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using MonoGameGum;
 using MonoGameGum.GueDeriving;
 using QuakeConsole;
@@ -27,6 +28,7 @@ namespace GameBattle
         private Texture2D _texture;
         private Texture2D _texture2;
         private Texture2D _bgtexture;
+        private Song song;
         private Controller _controller;
         private Controller2 _controller2;
         private Player _player;
@@ -184,6 +186,7 @@ namespace GameBattle
             _player2 = new Player { X = 1000, Y = 290 };
             _player2.Direction = false;
 
+
             _controller = new Controller(_player);
             _controller2 = new Controller2(_player2);
 
@@ -211,6 +214,12 @@ namespace GameBattle
             _texture = Content.Load<Texture2D>("5");
             _texture2 = Content.Load<Texture2D>("3");
             _bgtexture = Content.Load<Texture2D>("bg2");
+            song = Content.Load<Song>("Menu");
+
+            MediaPlayer.Play(song);
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.2f;
+
 
             _controller.InitializeKnife(GraphicsDevice);
             _controller2.InitializeKnife(GraphicsDevice);
